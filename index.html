@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Sourav Jha - Legal Services</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            font-size: 16px;
+        }
+
+        /* Accessibility improvements */
+        *:focus {
+            outline: 3px solid #ffd700;
+            outline-offset: 2px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Disclaimer Popup Overlay */
+        .disclaimer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            padding: 20px;
+        }
+
+        .disclaimer-popup {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transform: scale(0.8);
+            animation: popupAppear 0.5s ease-out forwards;
+        }
+
+        @keyframes popupAppear {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .disclaimer-popup h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: clamp(1.3em, 4vw, 1.8em);
+        }
+
+        .disclaimer-content {
+            text-align: left;
+            margin-bottom: 30px;
+            max-height: 250px;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #1e3c72;
+            font-size: clamp(0.9em, 2.5vw, 1em);
+        }
+
+        .disclaimer-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-accept, .btn-decline {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: clamp(0.9em, 3vw, 1em);
+            min-height: 48px;
+            touch-action: manipulation;
+        }
+
+        .btn-accept {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-accept:hover, .btn-accept:focus {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-decline {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-decline:hover, .btn-decline:focus {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        /* Main Website Content */
+        .main-content {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .main-content.show {
+            display: block;
+        }
+
+        /* Header with Mobile Menu */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+            position: relative;
+        }
+
+        .logo {
+            font-size: clamp(1.3em, 4vw, 1.8em);
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8em;
+            color: #1e3c72;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            min-height: 48px;
+            min-width: 48px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: block;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a:hover, .nav-links a:focus {
+            color: #1e3c72;
+            background: rgba(30, 60, 114, 0.1);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 4px;
+            left: 12px;
+            background: #1e3c72;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: calc(100% - 24px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 140px 1rem 80px;
+            text-align: center;
+            color: white;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5em, 8vw, 3.5em);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: clamp(1.1em, 4vw, 1.3em);
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 35px;
+            background: #fff;
+            color: #1e3c72;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 1s ease-out 0.6s both;
+            font-size: clamp(1em, 3vw, 1.1em);
+            min-height: 48px;
+            display: inline-flex;
+            align-items: center;
+            touch-action: manipulation;
+        }
+
+        .cta-button:hover, .cta-button:focus {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Services Section */
+        .services {
+            background: white;
+            padding: 80px 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(2em, 6vw, 2.5em);
+            color: #1e3c72;
+            margin-bottom: 3rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .service-card:hover, .service-card:focus-within {
+            transform: translateY(-10px);
+            border-color: #1e3c72;
+            box-shadow: 0 20px 40px rgba(30, 60, 114, 0.1);
+        }
+
+        .service-icon {
+            font-size: clamp(2.5em, 6vw, 3em);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .service-card h3 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            font-size: clamp(1.2em, 3.5vw, 1.3em);
+        }
+
+        .service-card p {
+            font-size: clamp(0.9em, 2.5vw, 1em);
+            line-height: 1.6;
+        }
+
+        /* About Section */
+        .about {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 1rem;
+            color: white;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .about-text h2 {
+            font-size: clamp(2em, 6vw, 2.5em);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            font-size: clamp(1em, 3vw, 1.1em);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .credentials {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .credentials h3 {
+            margin-bottom: 1rem;
+            font-size: clamp(1.3em, 4vw, 1.5em);
+        }
+
+        .credentials ul {
+            list-style: none;
+        }
+
+        .credentials li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: clamp(0.9em, 2.5vw, 1em);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: white;
+            padding: 80px 1rem;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info h3 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            font-size: clamp(1.3em, 4vw, 1.5em);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            font-size: clamp(1em, 3vw, 1.1em);
+        }
+
+        .contact-item span:first-child {
+            margin-right: 1rem;
+            font-size: 1.2em;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .contact-form {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .contact-form h3 {
+            color: #1e3c72;
+            margin-bottom: 1.5rem;
+            font-size: clamp(1.3em, 4vw, 1.5em);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #1e3c72;
+            font-weight: bold;
+            font-size: clamp(0.9em, 2.5vw, 1em);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: clamp(1em, 3vw, 1.1em);
+            transition: border-color 0.3s ease;
+            min-height: 48px;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.2);
+        }
+
+        .submit-btn {
+            background: #1e3c72;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: clamp(1em, 3vw, 1.1em);
+            min-height: 48px;
+            touch-action: manipulation;
+            width: 100%;
+        }
+
+        .submit-btn:hover, .submit-btn:focus {
+            background: #2a5298;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: #1e3c72;
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        footer p {
+            font-size: clamp(0.9em, 2.5vw, 1em);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                gap: 0;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+                border-radius: 0 0 15px 15px;
+                padding: 1rem 0;
+                transform: translateY(-10px);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-links li {
+                width: 100%;
+            }
+
+            .nav-links a {
+                padding: 15px 2rem;
+                border-radius: 0;
+                justify-content: flex-start;
+            }
+
+            .nav-links a::after {
+                display: none;
+            }
+
+            .disclaimer-buttons {
+                flex-direction: column;
+            }
+
+            .hero {
+                padding: 120px 1rem 60px;
+            }
+
+            .services {
+                padding: 60px 1rem;
+            }
+
+            .about {
+                padding: 60px 1rem;
+            }
+
+            .contact {
+                padding: 60px 1rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .service-card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .about-content {
+                grid-template-columns: 1fr 1fr;
+                align-items: center;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .disclaimer-buttons {
+                flex-direction: row;
+            }
+
+            .submit-btn {
+                width: auto;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .service-card, .contact-form, .credentials {
+                border: 2px solid #333;
+            }
+            
+            .btn-accept, .submit-btn {
+                border: 2px solid #000;
+            }
+            
+            .btn-decline {
+                border: 2px solid #000;
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .service-card:hover, .cta-button:hover, .submit-btn:hover {
+                transform: none;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .disclaimer-popup {
+                background: #2d3748;
+                color: #e2e8f0;
+            }
+            
+            .disclaimer-popup h2 {
+                color: #63b3ed;
+            }
+            
+            .disclaimer-content {
+                background: #4a5568;
+                color: #e2e8f0;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .disclaimer-overlay, .mobile-menu-btn, .cta-button {
+                display: none !important;
+            }
+            
+            .main-content {
+                display: block !important;
+            }
+            
+            header {
+                position: static;
+            }
+            
+            .hero {
+                padding-top: 20px;
+            }
+            
+            * {
+                color: #000 !important;
+                background: #fff !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to main content for screen readers -->
+    <a href="#main" class="sr-only">Skip to main content</a>
+
+    <!-- Disclaimer Popup -->
+    <div class="disclaimer-overlay" id="disclaimerOverlay" role="dialog" aria-labelledby="disclaimer-title" aria-describedby="disclaimer-content">
+        <div class="disclaimer-popup">
+            <h2 id="disclaimer-title">⚖️ Legal Disclaimer</h2>
+            <div class="disclaimer-content" id="disclaimer-content">
+                <p><strong>Important Notice:</strong></p>
+                <p>The information provided on this website is for general informational purposes only and does not constitute legal advice. No attorney-client relationship is formed by accessing or using this website.</p>
+                
+                <p><strong>Please be aware that:</strong></p>
+                <ul style="margin: 15px 0; padding-left: 20px;">
+                    <li>Legal advice can only be provided after consultation and review of specific circumstances</li>
+                    <li>Laws vary by jurisdiction and change frequently</li>
+                    <li>Past results do not guarantee future outcomes</li>
+                    <li>Confidential information should not be transmitted through this website</li>
+                </ul>
+                
+                <p><strong>For legal advice specific to your situation, please schedule a consultation.</strong></p>
+                
+                <p>By clicking "I Agree" and proceeding to use this website, you acknowledge that you have read and understood this disclaimer.</p>
+            </div>
+            <div class="disclaimer-buttons">
+                <button class="btn-accept" onclick="acceptDisclaimer()" aria-describedby="disclaimer-content">I Agree & Continue</button>
+                <button class="btn-decline" onclick="declineDisclaimer()">Decline</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Website Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Header -->
+        <header>
+            <nav role="navigation" aria-label="Main navigation">
+                <div class="logo">⚖️ Sourav Jha</div>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu" aria-expanded="false">
+                    ☰
+                </button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <main id="main">
+            <section class="hero" id="home">
+                <h1>Sourav Jha</h1>
+                <p>Jharkhand High Court, Ranchi</p>
+                <a href="#contact" class="cta-button">Schedule Consultation</a>
+            </section>
+
+            <!-- Services Section -->
+            <section class="services" id="services">
+                <div class="container">
+                    <h2 class="section-title">Legal Services</h2>
+                    <div class="services-grid">
+                        <article class="service-card">
+                            <span class="service-icon" aria-hidden="true">🏢</span>
+                            <h3>Corporate Law</h3>
+                            <p>Business formation, contracts, compliance, and corporate governance matters handled with precision and expertise.</p>
+                        </article>
+                        <article class="service-card">
+                            <span class="service-icon" aria-hidden="true">🏠</span>
+                            <h3>RERA</h3>
+                            <p>Property transactions, title issues, landlord-tenant matters, and real estate litigation services.</p>
+                        </article>
+                        <article class="service-card">
+                            <span class="service-icon" aria-hidden="true">💰</span>
+                            <h3>Tax</h3>
+                            <p>Tax law consultation, compliance assistance, and representation in tax-related legal matters.</p>
+                        </article>
+                        <article class="service-card">
+                            <span class="service-icon" aria-hidden="true">⚖️</span>
+                            <h3>Civil Litigation</h3>
+                            <p>Representing clients in civil disputes, personal injury claims, and commercial litigation matters.</p>
+                        </article>
+                        <article class="service-card">
+                            <span class="service-icon" aria-hidden="true">📋</span>
+                            <h3>Contract Law</h3>
+                            <p>Drafting, reviewing, and negotiating contracts to protect your interests and ensure legal compliance.</p>
+                        </article>
+                        <article class="service-card">
+                            <span class="service-icon" aria-hidden="true">🛡️</span>
+                            <h3>Legal Consultation</h3>
+                            <p>Strategic legal advice and consultation services to help you make informed decisions.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="about" id="about">
+                <div class="container">
+                    <div class="about-content">
+                        <div class="about-text">
+                            <h2>About Sourav Jha</h2>
+                            <p>With dedicated legal practice, I am committed to providing exceptional legal services to individuals and businesses. My approach combines thorough legal knowledge with personalized attention to each client's unique needs.</p>
+                            <p>I believe in building long-term relationships with clients based on trust, transparency, and results. Every case receives my full attention and expertise, ensuring the best possible outcomes.</p>
+                            <p>My practice is built on the foundation of integrity, professionalism, and unwavering dedication to justice.</p>
+                        </div>
+                        <div class="credentials">
+                            <h3>Qualifications & Experience</h3>
+                            <ul>
+                                <li>✓ BA. LLB (Corporate Law) Hons.</li>
+                                <li>✓ Extensive Experience in Multiple Practice Areas</li>
+                                <li>✓ Proven Track Record of Successful Cases</li>
+                                <li>✓ Member of Professional Legal Associations</li>
+                                <li>✓ Continuing Legal Education Certified</li>
+                                <li>✓ Client-Focused Legal Practice</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section class="contact" id="contact">
+                <div class="container">
+                    <h2 class="section-title">Contact Information</h2>
+                    <div class="contact-content">
+                        <div class="contact-info">
+                            <h3>Get In Touch</h3>
+                            <div class="contact-item">
+                                <span aria-hidden="true">📧</span>
+                                <span>
+                                    <strong>Email:</strong><br>
+                                    <a href="mailto:souravsj89@gmail.com">souravsj89@gmail.com</a>
+                                </span>
+                            </div>
+                            <div class="contact-item">
+                                <span aria-hidden="true">📞</span>
+                                <span>
+                                    <strong>Phone:</strong><br>
+                                    <a href="tel:+918789088592">+91 8789088592</a>
+                                </span>
+                            </div>
+                            <div class="contact-item">
+                                <span aria-hidden="true">📍</span>
+                                <span>
+                                    <strong>Address:</strong><br>
+                                    Legal Office Address<br>City, State - PIN Code
+                                </span>
+                            </div>
+                            <div class="contact-item">
+                                <span aria-hidden="true">🕒</span>
+                                <span>
+                                    <strong>Office Hours:</strong><br>
+                                    Mon-Fri: 9:00 AM - 6:00 PM<br>Sat: 10:00 AM - 2:00 PM
+                                </span>
+                            </div>
+                        </div>
+                        <div class="contact-form">
+                            <h3>Schedule a Consultation</h3>
+                            <form>
+                                <div class="form-group">
+                                    <label for="name">Full Name *</label>
+                                    <input type="text" id="name" name="name" required aria-required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Address *</label>
+                                    <input type="email" id="email" name="email" required aria-required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="subject">Legal Matter Type</label>
+                                    <input type="text" id="subject" name="subject" placeholder="e.g., Corporate Law, Family Law, etc.">
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Brief Description</label>
+                                    <textarea id="message" name="message" rows="4" placeholder="Please provide a brief description of your legal matter..."></textarea>
+                                </div>
+                                <button type="submit" class="submit-btn">Request Consultation</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <p>&copy; 2025 Sourav Jha Legal Services. All rights reserved.</p>
+                <p>This website and its contents are protected by applicable copyright and trademark laws.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function acceptDisclaimer() {
+            document.getElementById('disclaimerOverlay').style.display = 'none';
+            document.getElementById('mainContent').classList.add('show');
+            window.disclaimerAccepted = true;
+        }
+
+        function declineDisclaimer() {
+            alert('You must accept the disclaimer to access this website. You will now be redirected.');
+            window.location.href = 'about:blank';
+        }
+
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const isActive = navLinks.classList.contains('active');
+            
+            navLinks.classList.toggle('active');
+            menuBtn.setAttribute('aria-expanded', !isActive);
+            menuBtn.innerHTML = isActive ? '☰' : '✕';
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const nav = document.querySelector('nav');
+            const navLinks = document.getElementById('navLinks');
+            
+            if (!nav.contains(e.target) && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                document.querySelector('.mobile-menu-btn').setAttribute('aria-expanded', 'false');
+                document.querySelector('.mobile-menu-btn').innerHTML = '☰';
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    // Close mobile menu if open
+                    const navLinks = document.getElementById('navLinks');
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                        document.querySelector('.mobile-menu-btn').setAttribute('aria-expanded', 'false');
+                        document.querySelector('.mobile-menu-btn').innerHTML = '☰';
+                    }
+                    
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission handler with validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Basic form validation
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            
+            if (!name) {
+                alert('Please enter your full name.');
+                document.getElementById('name').focus();
+                return;
+            }
+            
+            if (!email) {
+                alert('Please enter your email address.');
+                document.getElementById('email').focus();
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address.');
+                document.getElementById('email').focus();
+                return;
+            }
+            
+            alert('Thank you for your consultation request. We will contact you within 24 hours to schedule your appointment.');
+            this.reset();
+        });
+
+        // Prevent right-click context menu on disclaimer
+        document.getElementById('disclaimerOverlay').addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Prevent escape key from closing disclaimer
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !window.disclaimerAccepted) {
+                e.preventDefault();
+            }
+        });
+
+        // Handle keyboard navigation for mobile menu
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const navLinks = document.getElementById('navLinks');
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    document.querySelector('.mobile-menu-btn').setAttribute('aria-expanded', 'false');
+                    document.querySelector('.mobile-menu-btn').innerHTML = '☰';
+                    document.querySelector('.mobile-menu-btn').focus();
+                }
+            }
+        });
+
+        // Improve focus management for disclaimer
+        document.addEventListener('DOMContentLoaded', function() {
+            const disclaimerOverlay = document.getElementById('disclaimerOverlay');
+            const firstButton = disclaimerOverlay.querySelector('.btn-accept');
+            
+            // Focus the first button when disclaimer appears
+            setTimeout(() => {
+                if (firstButton) {
+                    firstButton.focus();
+                }
+            }, 100);
+        });
+
+        // Handle service card keyboard navigation
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.setAttribute('tabindex', '0');
+            card.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+
+        // Add loading state to form submission
+        const form = document.querySelector('form');
+        const submitBtn = document.querySelector('.submit-btn');
+        
+        form.addEventListener('submit', function(e) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Request Consultation';
+            }, 2000);
+        });
+
+        // Announce dynamic content changes for screen readers
+        function announceToScreenReader(message) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.className = 'sr-only';
+            announcement.textContent = message;
+            document.body.appendChild(announcement);
+            
+            setTimeout(() => {
+                document.body.removeChild(announcement);
+            }, 1000);
+        }
+
+        // Announce when mobile menu is toggled
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const isActive = navLinks.classList.contains('active');
+            
+            navLinks.classList.toggle('active');
+            menuBtn.setAttribute('aria-expanded', !isActive);
+            menuBtn.innerHTML = isActive ? '☰' : '✕';
+            
+            // Announce state change
+            announceToScreenReader(isActive ? 'Navigation menu closed' : 'Navigation menu opened');
+        }
+
+        // Add intersection observer for animations
+        if ('IntersectionObserver' in window) {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe service cards for stagger animation
+            document.querySelectorAll('.service-card').forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                observer.observe(card);
+            });
+        }
+
+        // Handle reduced motion preference
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.style.setProperty('--animation-duration', '0.01ms');
+        }
+
+        // Ensure proper contrast ratios are maintained
+        function checkColorContrast() {
+            if (window.matchMedia('(prefers-contrast: high)').matches) {
+                document.body.classList.add('high-contrast');
+            }
+        }
+
+        // Check on load and when preferences change
+        checkColorContrast();
+        window.matchMedia('(prefers-contrast: high)').addEventListener('change', checkColorContrast);
+
+        // Handle touch events for better mobile interaction
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartY = e.changedTouches[0].screenY;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipeGesture();
+        });
+
+        function handleSwipeGesture() {
+            const swipeThreshold = 50;
+            const diff = touchStartY - touchEndY;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                // Add subtle feedback for swipe gestures
+                if (diff > 0) {
+                    // Swiped up
+                    announceToScreenReader('Scrolled up');
+                } else {
+                    // Swiped down
+                    announceToScreenReader('Scrolled down');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
