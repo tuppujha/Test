@@ -816,9 +816,54 @@
                         </div>
                         <div class="contact-form">
                             <h3>Schedule a Consultation</h3>
-                            <form>
-                                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSca9KaxZs6an4qv-3BqsLSThxEFzC_vUoqJaGBNZW2FKV7QEQ/viewform?embedded=true" width="440" height="418" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-                            </form>
+                            <div id="message" class="message"></div>
+        
+                        <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                            <!-- Web3Forms Access Key - Replace with your actual key -->
+                            <input type="hidden" name="access_key" value="ad76d945-4475-47e5-9b6c-204f1182c2af">
+                            
+                            <!-- Optional: Redirect after submission -->
+                            <input type="hidden" name="redirect" value="https://web3forms.com/success">
+                            
+                            <!-- Optional: Custom subject line -->
+                            <input type="hidden" name="subject" value="New Legal Consultation Request">
+                            
+                            <!-- Optional: From name -->
+                            <input type="hidden" name="from_name" value="Legal Website Contact Form">
+                            
+                            <div class="form-group">
+                                <label for="name">Full Name <span class="required">*</span></label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email Address <span class="required">*</span></label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="legal_matter">Legal Matter Type</label>
+                                <input type="text" id="legal_matter" name="legal_matter" placeholder="e.g., Corporate Law, Family Law, etc.">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">Brief Description <span class="required">*</span></label>
+                                <textarea id="message" name="message" rows="4" placeholder="Please provide a brief description of your legal matter..." required></textarea>
+                            </div>
+                            
+                            <!-- Honeypot field for spam protection -->
+                            <input type="checkbox" name="botcheck" style="display: none;">
+                            
+                            <button type="submit" class="submit-btn">
+                                <span class="loading-spinner"></span>
+                                <span class="btn-text">Request Consultation</span>
+                            </button>
+                        </form>
                         </div>
                     </div>
                 </div>
