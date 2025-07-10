@@ -778,93 +778,59 @@
                 </div>
             </section>
 
-            <!-- Contact Section -->
-            <section class="contact" id="contact">
-                <div class="container">
-                    <h2 class="section-title">Contact Information</h2>
-                    <div class="contact-content">
-                        <div class="contact-info">
-                            <h3>Get In Touch</h3>
-                            <div class="contact-item">
-                                <span aria-hidden="true">📧</span>
-                                <span>
-                                    <strong>Email:</strong><br>
-                                    <a href="mailto:souravsj89@gmail.com">souravsj89@gmail.com</a>
-                                </span>
-                            </div>
-                            <div class="contact-item">
-                                <span aria-hidden="true">📞</span>
-                                <span>
-                                    <strong>Phone:</strong><br>
-                                    <a href="tel:+918789088592">+91 8789088592</a>
-                                </span>
-                            </div>
-                            <div class="contact-item">
-                                <span aria-hidden="true">📍</span>
-                                <span>
-                                    <strong>Address:</strong><br>
-                                   Ashok Kunj, Ashok Nagar <br>Ranchi, State Jharkhand - 834002
-                                </span>
-                            </div>
-                            <div class="contact-item">
-                                <span aria-hidden="true">🕒</span>
-                                <span>
-                                    <strong>Office Hours:</strong><br>
-                                   <br>Sat: 10:00 AM - 2:00 PM
-                                </span>
-                            </div>
-                        </div>
-                        <div class="contact-form">
-                            <h3>Schedule a Consultation</h3>
-                            <div id="message" class="message"></div>
-         <div id="message" class="message"></div>
-        <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
-            <!-- Web3Forms Access Key - Replace with your actual key -->
-            <input type="hidden" name="apikey" value="ad76d945-4475-47e5-9b6c-204f1182c2af">
-            
-            <!-- Optional: Redirect after submission -->
-            <input type="hidden" name="redirect" value="https://web3forms.com/success">
-            
-            <!-- Optional: Custom subject line -->
-            <input type="hidden" name="subject" value="New Legal Consultation Request">
-            
-            <!-- Optional: From name -->
-            <input type="hidden" name="from_name" value="Legal Website Contact Form">
-            
-            <div class="form-group">
-                <label for="name">Full Name <span class="required">*</span></label>
-                <input type="text" id="name" name="name" required>
+       
+<!-- Contact Form Section -->
+<section class="contact-form-section">
+    <div class="contact-container">
+        <div class="contact-header">
+            <h2 class="contact-title">Get in Touch</h2>
+            <p class="contact-subtitle">We'd love to hear from you. Send us a message!</p>
+        </div>
+
+        <div class="contact-messages">
+            <div class="success-message" id="successMessage">
+                ✨ Thank you! Your message has been sent successfully.
             </div>
-            
-            <div class="form-group">
-                <label for="email">Email Address <span class="required">*</span></label>
-                <input type="email" id="email" name="email" required>
+            <div class="error-message" id="errorMessage">
+                ❌ Something went wrong. Please try again.
             </div>
-            
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone">
+        </div>
+
+        <form id="contactForm" class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value="ad76d945-4475-47e5-9b6c-204f1182c2af">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                </div>
             </div>
-            
+
             <div class="form-group">
-                <label for="legal_matter">Legal Matter Type</label>
-                <input type="text" id="legal_matter" name="legal_matter" placeholder="e.g., Corporate Law, Family Law, etc.">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" placeholder="What's this about?" required>
             </div>
-            
+
             <div class="form-group">
-                <label for="message">Brief Description <span class="required">*</span></label>
-                <textarea id="message" name="message" rows="4" placeholder="Please provide a brief description of your legal matter..." required></textarea>
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Tell us what's on your mind..." required></textarea>
             </div>
-            
-            <!-- Honeypot field for spam protection -->
-            <input type="checkbox" name="botcheck" style="display: none;">
-            
+
+            <!-- Honeypot Spam Protection -->
+            <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
             <button type="submit" class="submit-btn">
-                <span class="loading-spinner"></span>
-                <span class="btn-text">Request Consultation</span>
+                <span class="btn-text">Send Message</span>
+                <span class="btn-loader" style="display: none;">Sending...</span>
             </button>
         </form>
     </div>
+</section>
                         </div>
                     </div>
                 </div>
